@@ -5,18 +5,16 @@ services:
     container_name: manutencao_next
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Isso protege as bibliotecas instaladas no container
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
-      - DATABASE_URL=postgresql://admin:automacao@2025@db:5432/gestao_manutencao
-    volumes:
-      - ./frontend-next:/app
-      - /app/node_modules
     depends_on:
-      - db
-      - backend-ai
+      - backend
 
   # O CÉREBRO: Processamento de IA e Vetores
-  backend-ai:
+  backend:
     build: ./backend
     container_name: manutencao_api
     ports:
