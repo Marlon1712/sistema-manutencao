@@ -29,7 +29,6 @@ async def ingerir_manual(file: UploadFile = File(...)):
             texto_completo += page.get_text()
 
         # 2. Quebrar em pedaços menores (Chunks)
-        # Isso ajuda a IA a não se perder em manuais gigantes
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
         chunks = text_splitter.split_text(texto_completo)
 
