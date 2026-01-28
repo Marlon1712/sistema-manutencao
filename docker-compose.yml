@@ -4,7 +4,7 @@ services:
     build: ./frontend
     container_name: manutencao_next
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules # Isso protege as bibliotecas instaladas no container
@@ -18,7 +18,7 @@ services:
     build: ./backend
     container_name: manutencao_api
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./backend:/app
     environment:
