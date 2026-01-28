@@ -1,5 +1,5 @@
 services:
-  # O ROSTO: Interface e Gestão de Documentos
+  # Interface e Gestão de Documentos
   frontend:
     build: ./frontend
     container_name: manutencao_next
@@ -13,7 +13,7 @@ services:
     depends_on:
       - backend
 
-  # O CÉREBRO: Processamento de IA e Vetores
+  # Processamento de IA e Vetores
   backend:
     build: ./backend
     container_name: manutencao_api
@@ -26,7 +26,7 @@ services:
     depends_on:
       - ollama
 
-  # A INFRA (Mantemos o que já estava bom)
+  # A INFRA 
   db:
     image: ankane/pgvector:latest
     container_name: manutencao_db
