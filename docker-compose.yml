@@ -1,0 +1,59 @@
+services:
+  # O ROSTO: Interface e Gestão de Documentos
+  frontend:
+    build: ./frontend
+    container_name: manutencao_next
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - DATABASE_URL=postgresql://admin:automacao@2025@db:5432/gestao_manutencao
+    volumes:
+      - ./frontend-next:/app
+      - /app/node_modules
+    depends_on:
+      - db
+      - backend-ai
+
+  # O CÉREBRO: Processamento de IA e Vetores
+  backend-ai:
+    build: ./backend
+    container_name: manutencao_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    depends_on:
+      - ollama
+
+  # A INFRA (Mantemos o que já estava bom)
+  db:
+    image: ankane/pgvector:latest
+    container_name: manutencao_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: automacao@2025
+      POSTGRES_DB: gestao_manutencao
+    volumes:
+      - ./infra/postgres_data:/var/lib/postgresql/data
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: manutencao_storage
+    command: server /data --console-address ":9090"
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: automacao@2025
+    volumes:
+      - ./infra/minio_data:/data
+
+  ollama:
+    image: ollama/ollama
+    container_name: manutencao_ollama
+    volumes:
+      - ./infra/ollama_data:/root/.ollama

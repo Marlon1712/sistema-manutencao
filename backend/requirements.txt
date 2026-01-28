@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+psycopg2-binary
+boto3
+sqlalchemy
+requests
+pymupdf  # Para ler PDFs
+langchain-text-splitters # Para quebrar o texto em pedaços
